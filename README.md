@@ -188,7 +188,7 @@ Both question types share the common structure defined by the abstract `Question
 
 ### Class Diagram
 
-![Class Diagram](Docs/ExaminationSystem-Class Diagram.png)
+![Class Diagram](Docs/ExaminationSystem-ClassDiagram.png)
 
 ### Sequence Diagram
 
