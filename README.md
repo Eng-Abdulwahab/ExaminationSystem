@@ -11,10 +11,12 @@ The system supports two types of examinations:
 
 It also supports different question types:
 
-- True / False
 - Multiple Choice Question (MCQ)
+- True / False
 
 The system models the relationships between Subjects, Exams, Questions, and Answers while applying fundamental OOP principles in C#.
+
+The project also uses enumerations to represent examination and question types during the creation process.
 
 ## OOP Concepts
 
@@ -32,6 +34,8 @@ Additional C# features demonstrated:
 - `ICloneable`
 - `IComparable`
 - `ToString()` overriding
+- Enumerations (`ExamType` and `QuestionType`)
+- Exception handling and input validation
 
 ## Domain Model
 
@@ -61,7 +65,31 @@ Question
 
 `MCQQuestion` and `TrueOrFalseQuestion` inherit from the abstract `Question` class.
 
-This allows common behavior to be defined in the base classes while specialized behavior is implemented in the derived classes.
+This allows common properties and behavior to be defined in the base classes while allowing the concrete question and exam types to be represented separately.
+
+## Enumerations
+
+The project uses two enumerations during the creation process:
+
+### `ExamType`
+
+```text
+Final
+Practical
+```
+
+`ExamType` is used to determine which concrete examination type should be created.
+
+### `QuestionType`
+
+```text
+MCQ
+TrueOrFalse
+```
+
+`QuestionType` is used when creating questions for a Final Exam to determine which concrete question type should be created.
+
+The enums are used as selection values in the application and do not replace the corresponding classes. The concrete classes are still responsible for representing the actual exam and question objects.
 
 ## Design Decisions
 
@@ -77,6 +105,7 @@ For example:
 
 ```text
 Question Bank
+
    ├── Q1
    ├── Q2
    └── Q3
@@ -109,6 +138,8 @@ Therefore, `Question → Answer` is modeled as **Composition**.
 Question ◆── Answer[]
 ```
 
+Each `Question` also maintains a `RightAnswer` that references the correct answer from its `AnswerList`.
+
 ### Subject → Exam
 
 The `Subject` contains its associated exam and provides the functionality to create that exam.
@@ -120,6 +151,38 @@ Subject ◆── Exam
 ```
 
 > Relationship types are domain-dependent design decisions. The same pair of classes can have different relationships in different business domains.
+
+## Question Types
+
+### MCQQuestion
+
+An `MCQQuestion` allows the user to define multiple answer choices.
+
+The number of choices is determined when the question is created, and one of the provided answers is selected as the correct answer.
+
+Example:
+
+```text
+What is C#?
+
+1. Programming Language
+2. Database
+3. Operating System
+4. Browser
+```
+
+### TrueOrFalseQuestion
+
+A `TrueOrFalseQuestion` provides two predefined answer choices:
+
+```text
+1. True
+2. False
+```
+
+The user selects which of the two answers is the correct answer.
+
+Both question types share the common structure defined by the abstract `Question` class, including the question body, mark, answer list, and right answer.
 
 ## UML Diagrams
 
@@ -149,25 +212,21 @@ An abstract base class containing the common examination properties and behavior
 
 - Exam time
 - Number of questions
-- Questions list
+- Questions array
 - `ShowExam()` functionality
 
 ### FinalExam
 
-Supports:
+Represents a final examination and supports:
 
-- True / False questions
 - MCQ questions
-
-After completing the exam, it displays the questions, answers, and grade.
+- True / False questions
 
 ### PracticalExam
 
-Supports:
+Represents a practical examination and supports:
 
 - MCQ questions
-
-After completing the exam, it displays the correct answers after finishing the exam.
 
 ### Question
 
@@ -181,17 +240,44 @@ An abstract base class containing the common properties shared by all question t
 
 ### Answer
 
-Represents an answer choice and contains:
+Represents an individual answer choice and contains:
 
 - Answer ID
 - Answer text
+
+The `Answer` class also implements `ICloneable` and `IComparable`.
 
 ## Interfaces
 
 The project demonstrates:
 
-- `ICloneable` for object cloning
-- `IComparable` for comparison behavior
+### `ICloneable`
+
+Used to provide cloning functionality for `Answer` objects.
+
+The implementation uses `MemberwiseClone()` to create a shallow copy of the object.
+
+### `IComparable`
+
+Used to provide comparison behavior for `Answer` objects.
+
+Answers are compared based on their `Id`.
+
+## Validation and Exception Handling
+
+The project includes input validation and exception handling to prevent invalid data from entering the domain model.
+
+Examples include:
+
+- Preventing empty or whitespace-only subject names
+- Preventing empty question headers and bodies
+- Ensuring marks are greater than zero
+- Ensuring questions contain at least one answer
+- Ensuring the correct answer exists in the answer list
+- Validating numeric input and allowed ranges
+- Validating question and exam type selections
+
+Exceptions are thrown by the relevant classes when invalid domain data is provided and are handled by the application where appropriate.
 
 ## Project Structure
 
@@ -208,10 +294,12 @@ ExaminationSystem/
 │       ├── Models/
 │       │   ├── Answer.cs
 │       │   ├── Exam.cs
+│       │   ├── ExamType.cs
 │       │   ├── FinalExam.cs
 │       │   ├── MCQQuestion.cs
 │       │   ├── PracticalExam.cs
 │       │   ├── Question.cs
+│       │   ├── QuestionType.cs
 │       │   ├── Subject.cs
 │       │   └── TrueOrFalseQuestion.cs
 │       │
@@ -225,6 +313,6 @@ ExaminationSystem/
 
 ## Purpose
 
-This project was developed as an OOP exercise to practice object-oriented design, class relationships, abstraction, inheritance, polymorphism, composition, interface implementation, and C# object behavior.
+This project was developed as an OOP exercise to practice object-oriented design, class relationships, abstraction, inheritance, polymorphism, composition, interface implementation, exception handling, and C# object behavior.
 
-The goal is to model the given business case clearly while keeping the design simple and maintainable.
+The goal is to model the given examination business case clearly while keeping the design simple, maintainable, and consistent with the implemented code and UML diagrams.

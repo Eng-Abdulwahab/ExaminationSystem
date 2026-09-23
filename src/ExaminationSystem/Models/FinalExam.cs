@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ExaminationSystem.Models;
 
-namespace ExaminationSystem.Models
+public class FinalExam : Exam
 {
-    internal class FinalExam
+    public FinalExam(int time, Question[] questions)
+        : base(time, questions)
     {
+    }
+
+    public override void ShowExam()
+    {
+        Console.WriteLine("===== Final Exam =====");
+        Console.WriteLine($"Time: {Time} minutes");
+        Console.WriteLine($"Number of Questions: {NumberOfQuestions}");
+
+        int grade = ConductExam(out int totalGrade);
+
+        Console.WriteLine();
+        Console.WriteLine("===== Final Result =====");
+        Console.WriteLine($"Grade: {grade} / {totalGrade}");
     }
 }
