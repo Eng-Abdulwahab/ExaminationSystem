@@ -2,12 +2,7 @@
 
 public class MCQQuestion : Question
 {
-    public MCQQuestion(
-        string header,
-        string body,
-        int mark,
-        Answer[] answerList,
-        Answer rightAnswer)
+    public MCQQuestion(string header, string body, int mark, Answer[] answerList, Answer rightAnswer)
         : base(header, body, mark, answerList, rightAnswer)
     {
     }

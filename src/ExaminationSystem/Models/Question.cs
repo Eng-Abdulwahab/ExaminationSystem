@@ -9,12 +9,7 @@ public abstract class Question
     public Answer[] AnswerList { get; private set; }
     public Answer RightAnswer { get; private set; }
 
-    protected Question(
-        string header,
-        string body,
-        int mark,
-        Answer[] answerList,
-        Answer rightAnswer)
+    protected Question(string header, string body, int mark, Answer[] answerList, Answer rightAnswer)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(header);
         ArgumentException.ThrowIfNullOrWhiteSpace(body);

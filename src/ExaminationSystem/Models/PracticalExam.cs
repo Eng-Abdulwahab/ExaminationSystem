@@ -1,32 +1,30 @@
-﻿namespace ExaminationSystem.Models;
+﻿using ExaminationSystem.UI;
+
+namespace ExaminationSystem.Models;
 
 public class PracticalExam : Exam
 {
-    public PracticalExam(int time, Question[] questions)
-        : base(time, questions)
+    public PracticalExam(int time, Question[] questions) : base(time, questions)
     {
     }
 
     public override void ShowExam()
     {
-        Console.WriteLine("===== Practical Exam =====");
-        Console.WriteLine($"Time: {Time} minutes");
-        Console.WriteLine($"Number of Questions: {NumberOfQuestions}");
+        ConsoleUI.ShowHeader("Practical Exam");
+        ConsoleUI.ShowInfo("Time", Time + " minutes");
+        ConsoleUI.ShowInfo("Number of Questions", NumberOfQuestions.ToString());
 
         int grade = ConductExam(out int totalGrade);
 
-        Console.WriteLine();
-        Console.WriteLine("===== Exam Finished =====");
+        ConsoleUI.ShowHeader("Exam Finished");
 
         Console.WriteLine("Correct Answers:");
-
         foreach (Question question in Questions)
         {
-            Console.WriteLine(
-                $"{question.Header}: {question.RightAnswer.Text}");
+            Console.WriteLine($"{question.Header}: {question.RightAnswer.Text}");
         }
 
         Console.WriteLine();
-        Console.WriteLine($"Grade: {grade} / {totalGrade}");
+        ConsoleUI.ShowInfo("Grade", grade + " / " + totalGrade);
     }
 }

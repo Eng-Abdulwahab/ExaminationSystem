@@ -2,12 +2,7 @@
 
 public class TrueOrFalseQuestion : Question
 {
-    public TrueOrFalseQuestion(
-        string header,
-        string body,
-        int mark,
-        Answer[] answerList,
-        Answer rightAnswer)
+    public TrueOrFalseQuestion(string header, string body, int mark, Answer[] answerList, Answer rightAnswer)
         : base(header, body, mark, answerList, rightAnswer)
     {
     }

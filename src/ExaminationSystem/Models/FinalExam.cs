@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Models;
+﻿using ExaminationSystem.UI;
+
+namespace ExaminationSystem.Models;
 
 public class FinalExam : Exam
 {
@@ -9,14 +11,13 @@ public class FinalExam : Exam
 
     public override void ShowExam()
     {
-        Console.WriteLine("===== Final Exam =====");
-        Console.WriteLine($"Time: {Time} minutes");
-        Console.WriteLine($"Number of Questions: {NumberOfQuestions}");
+        ConsoleUI.ShowHeader("Final Exam");
+        ConsoleUI.ShowInfo("Time", Time + " minutes");
+        ConsoleUI.ShowInfo("Number of Questions", NumberOfQuestions.ToString());
 
         int grade = ConductExam(out int totalGrade);
 
-        Console.WriteLine();
-        Console.WriteLine("===== Final Result =====");
-        Console.WriteLine($"Grade: {grade} / {totalGrade}");
+        ConsoleUI.ShowHeader("Final Result");
+        ConsoleUI.ShowInfo("Grade", grade + " / " + totalGrade);
     }
 }

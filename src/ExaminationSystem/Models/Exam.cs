@@ -1,4 +1,6 @@
-﻿namespace ExaminationSystem.Models;
+﻿using ExaminationSystem.UI;
+
+namespace ExaminationSystem.Models;
 
 public abstract class Exam
 {
@@ -31,10 +33,13 @@ public abstract class Exam
     {
         totalGrade = 0;
         int grade = 0;
+        int questionNumber = 0;
 
         foreach (Question question in Questions)
         {
-            Console.WriteLine();
+            questionNumber++;
+
+            ConsoleUI.ShowHeader($"Question {questionNumber} of {Questions.Length}");
             question.ShowQuestion();
 
             totalGrade += question.Mark;
@@ -48,11 +53,11 @@ public abstract class Exam
             if (selected.Id == question.RightAnswer.Id)
             {
                 grade += question.Mark;
-                Console.WriteLine("Correct!");
+                ConsoleUI.ShowSuccess("Correct!");
             }
             else
             {
-                Console.WriteLine("Wrong!");
+                ConsoleUI.ShowError("Wrong!");
             }
         }
 
@@ -63,17 +68,16 @@ public abstract class Exam
     {
         while (true)
         {
-            Console.Write("Your Answer: ");
+            string input = ConsoleUI.ReadText("Your answer");
 
-            if (int.TryParse(Console.ReadLine(), out int value) &&
+            if (int.TryParse(input, out int value) &&
                 value >= min &&
                 value <= max)
             {
                 return value;
             }
 
-            Console.WriteLine(
-                $"Invalid answer. Please choose between {min} and {max}.");
+            ConsoleUI.ShowError($"Enter a whole number from {min} to {max}.");
         }
     }
 }
